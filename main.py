@@ -1,7 +1,8 @@
 from modules import tools
 
-driver = tools.FindElement.getDriver()
+link = 'https://www.instagram.com/cecaneuft/'
 
-perfil = tools.FindElement.getPerfilInfo(driver)
+perfil = tools.FindElement.getPerfilInfo(link)
 
-print(f'Text: {perfil}')
+for index,key in enumerate(perfil):
+    print(f'{key}:{perfil[key]}\n') 

@@ -26,9 +26,9 @@ class FindElement:
                     
         return item
     
-    def getDriver():
+    def getDriver(link):
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-        driver.get('https://www.instagram.com/cecaneuft/')
+        driver.get(link)
 
         return driver
     
@@ -73,9 +73,11 @@ class FindElement:
 
         return imgPerfilUrl
     
-    def getPerfilInfo(driver):
+    def getPerfilInfo(link):
         perfilDict = dict()
 
+        driver = FindElement.getDriver(link)
+        
         perfilDict['imgPerfil'] = FindElement.getImgPerfil(driver)
 
         header = FindElement.getInitalElement(driver,'tag','header')
