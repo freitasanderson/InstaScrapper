@@ -2,7 +2,13 @@ from modules import tools
 
 link = 'https://www.instagram.com/cecaneuft/'
 
-perfil = tools.FindElement.getPerfilInfo(link)
+driver = tools.FindElement.getDriver(link)
+# x9f619
+perfil = tools.FindElement.getPerfilInfo(driver)
 
-for index,key in enumerate(perfil):
-    print(f'{key}:{perfil[key]}\n') 
+publis = tools.FindElement.getPublis(driver)
+
+# for index,key in enumerate(perfil):
+#     print(f'{key}:{perfil[key]}\n') 
+
+print(publis)

@@ -9,21 +9,24 @@ from selenium.webdriver.common.keys import Keys
 
 class FindElement:
     def getInitalElement(driver, typeElement, element):
-        sleep(5)
         found = False
+        tryCount = 50
+        while found == False and tryCount > 0:
+            try:
+                match typeElement:
 
-        while found == False:
+                    case 'tag':
+                        item = driver.find_element(By.TAG_NAME,element)
+                        found = True if item else False
 
-            match typeElement:
+                    case 'id':
+                        item = driver.find_element(By.ID,element)
+                        found = True if item else False
+            except:
+                # print(tryCount)
+                tryCount -= 1
+                sleep(0.1)
 
-                case 'tag':
-                    item = driver.find_element(By.TAG_NAME,element)
-                    found = True if item else False
-
-                case 'id':
-                    item = driver.find_element(By.ID,element)
-                    found = True if item else False
-                    
         return item
     
     def getDriver(link):
@@ -60,7 +63,9 @@ class FindElement:
                     
         return obj
     
-    def getImgPerfil(driver):
+    def getPerfilInfo(driver):
+        perfilDict = dict()
+
         header = FindElement.getInitalElement(driver,'tag','header')
 
         divHeader = FindElement.getElement(header,'tag','div')
@@ -69,18 +74,8 @@ class FindElement:
 
         imgPerfil = FindElement.getElement(divSpan,'tag','img')
 
-        imgPerfilUrl = imgPerfil.get_attribute("src")
+        perfilDict['imgPerfil'] = imgPerfil.get_attribute("src")
 
-        return imgPerfilUrl
-    
-    def getPerfilInfo(link):
-        perfilDict = dict()
-
-        driver = FindElement.getDriver(link)
-        
-        perfilDict['imgPerfil'] = FindElement.getImgPerfil(driver)
-
-        header = FindElement.getInitalElement(driver,'tag','header')
         sectionHeader = FindElement.getElement(header,'tag','section')
         sectionDiv = FindElement.getElement(sectionHeader,'class','x6s0dn4')
 
@@ -113,3 +108,32 @@ class FindElement:
         perfilDict['perfilSite'] = f'https://{aDivUrl.text}'
         
         return perfilDict
+    
+    def getPublis(driver):
+        listPubli = list()
+
+        articlePublis = FindElement.getInitalElement(driver,'tag','article')
+        articleDiv = FindElement.getElement(articlePublis,'tag','div')
+        articleDiv2 = FindElement.getElement(articleDiv,'tag','div')
+
+        publiRows = FindElement.getElements(articleDiv2,'tag','div')
+
+        for publis in publiRows:
+            listPublis = FindElement.getElements(articleDiv2,'tag','div')
+
+            for item in listPublis:
+                publi = FindElement.getElement(item,'tag','div')
+
+                divA = FindElement.getElement(publi,'tag','a')
+
+                divEmA = FindElement.getElement(divA,'tag','div')
+
+                divEmA2 = FindElement.getElement(divEmA,'tag','div')
+
+                img = FindElement.getElement(divEmA2,'tag','img')
+
+                imgAlt = img.get_attribute("alt")
+
+                imgUrl = img.get_attribute("src")
+
+                print(imgUrl)
