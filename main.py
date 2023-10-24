@@ -1,14 +1,44 @@
-from modules import tools
+from itertools import islice
 
-link = 'https://www.instagram.com/cecaneuft/'
+import instaloader
 
-driver = tools.FindElement.getDriver(link)
-# x9f619
-perfil = tools.FindElement.getPerfilInfo(driver)
+def infoPerfil(username, password):
 
-publis = tools.FindElement.getPublis(driver)
+        bot = instaloader.Instaloader()
+        bot.login(username,password)
 
-# for index,key in enumerate(perfil):
-#     print(f'{key}:{perfil[key]}\n') 
+        profile = instaloader.Profile.from_username(bot.context, username)
 
-# print(publis);
+        seguidores = profile.followers
+        seguindo = profile.followees
+        totalPosts = profile.mediacount
+
+        print(seguidores,seguindo,totalPosts)
+
+        listPosts = list()
+        posts = set(islice(profile.get_posts(), 20))
+
+        for post in posts:
+            dictPost = dict()
+
+            dictPost['url'] = post.url
+            dictPost['caption'] = post.caption
+            dictPost['likes'] = post.get_likes()
+
+            listPosts.append(dictPost)
+        
+        dictProfile = dict()
+
+        dictProfile['seguidores'] = seguidores
+        dictProfile['seguindo'] = seguindo
+        dictProfile['totalPosts'] = totalPosts
+        dictProfile['listPosts'] = listPosts
+
+        return dictProfile
+
+username = ''
+password = ''
+
+perfil = infoPerfil(username,password)
+
+# print(perfil)
