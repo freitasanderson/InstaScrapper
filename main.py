@@ -11,4 +11,4 @@ publis = tools.FindElement.getPublis(driver)
 # for index,key in enumerate(perfil):
 #     print(f'{key}:{perfil[key]}\n') 
 
-print(publis)
+# print(publis);

@@ -23,7 +23,7 @@ class FindElement:
                         item = driver.find_element(By.ID,element)
                         found = True if item else False
             except:
-                # print(tryCount)
+                print(tryCount)
                 tryCount -= 1
                 sleep(0.1)
 
@@ -112,28 +112,34 @@ class FindElement:
     def getPublis(driver):
         listPubli = list()
 
-        articlePublis = FindElement.getInitalElement(driver,'tag','article')
-        articleDiv = FindElement.getElement(articlePublis,'tag','div')
-        articleDiv2 = FindElement.getElement(articleDiv,'tag','div')
+        articlePublis = FindElement.getElement(driver,'tag','article')
+
+        print(articlePublis.getAttribute("class"))
+        
+        articleDiv = FindElement.getElements(articlePublis,'tag','div')
+        articleDiv2 = FindElement.getElement(articleDiv[0],'tag','div')
 
         publiRows = FindElement.getElements(articleDiv2,'tag','div')
-
+        print(len(publiRows))
         for publis in publiRows:
-            listPublis = FindElement.getElements(articleDiv2,'tag','div')
+            listPublis = FindElement.getElements(publis,'tag','div')
+            print(len(listPubli))
 
             for item in listPublis:
                 publi = FindElement.getElement(item,'tag','div')
 
-                divA = FindElement.getElement(publi,'tag','a')
+                divA = FindElement.getElement(publi,'class','a')
 
-                divEmA = FindElement.getElement(divA,'tag','div')
+                [print(a.get_attribute('href') for a in divA)]
 
-                divEmA2 = FindElement.getElement(divEmA,'tag','div')
+                # divEmA = FindElement.getElements(divA,'tag','div')[0]
 
-                img = FindElement.getElement(divEmA2,'tag','img')
+                # divEmA2 = FindElement.getElements(divEmA,'tag','div')[0]
 
-                imgAlt = img.get_attribute("alt")
+                # img = FindElement.getElement(divEmA2,'tag','img')
 
-                imgUrl = img.get_attribute("src")
+                # imgAlt = img.get_attribute("alt")
 
-                print(imgUrl)
+                # imgUrl = img.get_attribute("src")
+
+                # print(imgUrl)
